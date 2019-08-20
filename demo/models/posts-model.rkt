@@ -17,22 +17,10 @@
 
     (primary-key id)
 
-
-    (define/public (name)
-     "Cool post")
+    (define/public (set-text v)
+         (set-column! text this v))
 
     (define/public (get-text)
          (get-column text this))
     (super-new)))
-
-;Examples:
-
-#;
-(define p
-  (new post% 
-       [text "Second post!"]))
-
-#;
-(save p)
-
 

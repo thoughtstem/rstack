@@ -107,6 +107,10 @@
 
 
 (define (update i)
+  (define p (find post% i))
+  (send p set-text (params 'text))
+  (save p)
+
   (list
     `(div "update stub")))
 
@@ -171,8 +175,6 @@
   (parameterize
     ([current-req req])
     (response/xexpr (layout (make)))))
-
-
 
 (define (edit-req req i)
   (parameterize
