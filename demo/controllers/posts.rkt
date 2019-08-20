@@ -18,10 +18,6 @@
   `(html (body ,@elems)))
 
 
-(define (make)
-  (list
-    `(h1 "Create")
-    `(div "Let's make a post!")))
 
 (define (delete i)
  (define p
@@ -83,8 +79,7 @@
   (define ps (all post%))
 
   ;Create links
-  (define ids (map get-id ps))
-  (define links (map post-link ids))
+  (define links (map post-link ps))
 
   ;Create page with links
   (list
@@ -99,11 +94,11 @@
     `(a ([href "/posts/make"]) "New Post")))
 
 
-(define (post-link id)
-  (define path (~a "/posts/" id))
+(define (post-link p)
+  (define path (~a "/posts/" (get-id p)))
 
   `(div (a ([href ,path]) 
-           ,path)))
+           ,(send p get-text))))
 
 
 (define (update i)
@@ -113,10 +108,19 @@
 
   (show i))
 
+
+(define (make)
+  (edit-form))
+
 (define (edit i)
+  (edit-form i))
+
+(define (edit-form (i #f))
   (list
-    `(h1 "Edit")
-    `(form ([action ,(~a "/posts/" i)]
+    `(h1 ,(if i "Edit" "Create"))
+    `(form ([action ,(if i
+                       (~a "/posts/" i)
+                       "/posts")]
             [method "post"])
        "Text:" 
        (br)
@@ -129,7 +133,16 @@
 
   (save p)
 
-  `(div "Created post"))
+  ;I wish this worked.  Can't get the id
+  ;  from racquel.  Opened ticket:
+  ;  https://github.com/brown131/racquel/issues/11
+
+  #;
+  (show (get-id p))
+
+  ;Just load the index for now...
+  
+  (index))
 
 (define current-req (make-parameter #f))
 
