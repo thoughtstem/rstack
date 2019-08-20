@@ -1,0 +1,10 @@
+
+Model:
+  Consider racquel + mysql
+
+View:
+  Consider react + urlang
+
+Controller/routing:
+  Consider using spin.rkt
+    https://github.com/dmac/spin
