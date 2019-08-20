@@ -21,8 +21,9 @@
     (define/public (name)
      "Cool post")
 
+    (define/public (get-text)
+         (get-column text this))
     (super-new)))
-
 
 ;Examples:
 

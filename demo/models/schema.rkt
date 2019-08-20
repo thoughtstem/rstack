@@ -8,6 +8,7 @@
          all
          get-id
          find
+         destroy
 
          connection
 
@@ -48,5 +49,8 @@
 
 (define (find c i)
   (select-data-object connection c (where (= id ?)) i))
+
+(define (destroy do)
+  (delete-data-object connection do))
 
 
