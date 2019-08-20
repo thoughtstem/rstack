@@ -13,7 +13,7 @@
   [("posts") #:method "post" 
              posts:create-req] 
   [("posts" (integer-arg)) 
-             #:method "put" 
+             #:method "post" 
              posts:update-req] 
   [("posts" (integer-arg)) posts:show-req] ; Respond to /posts/:id
   [("posts" (integer-arg)) #:method "delete"

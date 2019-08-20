@@ -111,12 +111,17 @@
   (send p set-text (params 'text))
   (save p)
 
-  (list
-    `(div "update stub")))
+  (show i))
 
 (define (edit i)
   (list
-    `(h1 "Edit")))
+    `(h1 "Edit")
+    `(form ([action ,(~a "/posts/" i)]
+            [method "post"])
+       "Text:" 
+       (br)
+       (input ([type "text"] [name "text"])) 
+       (input ([type "submit"] [value "Submit"])))))
 
 (define (create)
   (define p (new post%
