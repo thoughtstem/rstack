@@ -2,6 +2,18 @@
 
 (require db "../lib/db.rkt")
 
+(provide (all-from-out racquel))
+
+(provide create-db
+         migration1
+         migration2)
+
+(define-runtime-path here ".")
+
+(define connection
+  (sqlite3-connect #:database (build-path here "./temp.db")
+                   #:mode 'create))
+
 (provide 
   create-db
   migration1
@@ -14,7 +26,6 @@
 (define (migration2)
   (query-exec connection
           "CREATE TABLE comments( id   INTEGER PRIMARY KEY  AUTOINCREMENT NOT NULL, text TEXT NOT NULL);")) 
-
 
 (define (create-db)
   (migration1) 
