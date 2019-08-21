@@ -25,6 +25,9 @@
     (super-new)))
 
 
+;TODO: Figure out why we can't put this in
+; its own file.
+
 (provide comment%)
 
 (define comment%

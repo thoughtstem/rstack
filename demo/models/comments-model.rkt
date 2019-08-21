@@ -7,7 +7,6 @@
          db
          "schema.rkt")
 
-#;
 (define comment%
   (data-class object%
     (table-name "comments")
