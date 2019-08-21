@@ -1,11 +1,8 @@
 #lang racket
 
-#;
 (provide comment%)
 
-(require racquel
-         db
-         "schema.rkt")
+(require racquel)
 
 (define comment%
   (data-class object%

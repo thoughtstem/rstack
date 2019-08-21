@@ -1,30 +1,11 @@
 #lang racket
 
-(require db racquel racket/runtime-path)
+(require db "../lib/db.rkt")
 
-(provide (all-from-out racquel))
-
-(provide save
-         all
-         get-id
-         find
-         destroy
- 
-         pluralize
-         class->string
-
-         connection
-
-         create-db
-         migration1
-         migration2)
-
-(define-runtime-path here ".")
-
-(define connection
-  (sqlite3-connect #:database (build-path here "./temp.db")
-                   #:mode 'create))
-
+(provide 
+  create-db
+  migration1
+  migration2)
 
 (define (migration1)
   (query-exec connection
@@ -38,34 +19,4 @@
 (define (create-db)
   (migration1) 
   (migration2))
-
-(define (save do)
-  (save-data-object connection do))
-
-
-(define (all do)
-  (select-data-objects connection do))
-
-
-(define (get-id do)
-  (get-column id do))
-
-(define (find c i)
-  (select-data-object connection c (where (= id ?)) i))
-
-(define (destroy do)
-  (delete-data-object connection do))
-
-
-(define (class->string c%)
-  (string-replace 
-    (second (string-split (~a c%) ":")) 
-    "%>" ""))
-
-;TODO: We need to make this more correct for the English language.
-(define (pluralize s)
-  (~a s "s"))
-
-
-
 

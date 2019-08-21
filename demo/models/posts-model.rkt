@@ -2,9 +2,7 @@
 
 (provide post%)
 
-(require racquel
-         db
-         "schema.rkt")
+(require racquel)
 
 (define post%
   (data-class object%
@@ -25,9 +23,6 @@
     (super-new)))
 
 
-;TODO: Figure out why we can't put this in
-; its own file.
-
 (provide comment%)
 
 (define comment%
@@ -47,6 +42,4 @@
     (define/public (get-text)
          (get-column text this))
     (super-new)))
-
-
 
