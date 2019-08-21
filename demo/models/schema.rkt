@@ -9,6 +9,9 @@
          get-id
          find
          destroy
+ 
+         pluralize
+         class->string
 
          connection
 
@@ -29,7 +32,7 @@
 
 (define (migration2)
   (query-exec connection
-          "CREATE TABLE posts( id   INTEGER PRIMARY KEY  AUTOINCREMENT NOT NULL, text TEXT NOT NULL);")) 
+          "CREATE TABLE comments( id   INTEGER PRIMARY KEY  AUTOINCREMENT NOT NULL, text TEXT NOT NULL);")) 
 
 
 (define (create-db)
@@ -52,5 +55,17 @@
 
 (define (destroy do)
   (delete-data-object connection do))
+
+
+(define (class->string c%)
+  (string-replace 
+    (second (string-split (~a c%) ":")) 
+    "%>" ""))
+
+;TODO: We need to make this more correct for the English language.
+(define (pluralize s)
+  (~a s "s"))
+
+
 
 

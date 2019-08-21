@@ -1,8 +1,9 @@
 #lang racket
 
-(require web-server/servlet
-         web-server/servlet-env
+(require web-server/servlet web-server/servlet-env
+         "../lib/scaffold.rkt" 
          "../lib/resource-dispatcher.rkt" 
+         "../lib/params.rkt" 
          "../models/main.rkt")
 
 (provide 
@@ -15,59 +16,12 @@
   index)
 
 
-
+;TODO: Can auto-generate this probably
 (define (delete i)
- (define p
-   (find post% i))
-
-  ;Makes it really delete
- 
-  (destroy p)
-
-  (list
-    `(div "Post deleted!")
-    `(div (a ([href "/posts"]) "Back to posts"))))
+  (scaffold-delete post% i))
 
 (define (show i)
-  ;Get the post with id = i
-
- (define p
-   (find post% i))
-
- (define t
-   (send p get-text))
- 
- ;Create div for displaying text
-
-  (list
-    `(h1 ,(~a "Post " i))
-
-    `(div ,t)
-
-    `(div 
-       (a ([href ,(~a "/posts/" i "/edit")]) "Edit"))  
-
-    (delete-button i)
-
-    `(br)
-    `(br)
-    `(br)
-
-    `(div (a ([href "/posts"]) "Back to posts"))
-    
-    ))
-
-
-(define (delete-button i)
-  ;TODO: Clean this up. It's a mess.
-  (define delete-js
-    (~a
-      "const Http = new XMLHttpRequest(); const url=\"/posts/"
-      i
-      "\"; Http.open(\"DELETE\", url); Http.onload=function(){window.location=\"/posts\";}; Http.send(); "))
-
- `(button ([onClick ,delete-js])
-     "Delete"))
+  (scaffold-show post% i))
 
 
 (define (index)
@@ -140,24 +94,4 @@
   ;Just load the index for now...
   
   (index))
-
-
-(define (params id)
-  (spin:params (current-req) id))
-
-(define (spin:params request key)
-  (define query-pairs (url-query (request-uri request)))
-  (define body-pairs
-    (match (request-post-data/raw request)
-      [#f empty]
-      [body (url-query (string->url (string-append "?"  (bytes->string/utf-8 body))))]))
-  #;
-  (define url-pairs
-    (let ([keys (cadr (request->handler/keys/response-maker request))])
-      (request->key-bindings request keys)))
-  (hash-ref (make-hash (append query-pairs body-pairs 
-                               #;
-                               url-pairs)) key ""))
-
-
 

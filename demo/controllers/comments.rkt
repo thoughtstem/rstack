@@ -2,7 +2,9 @@
 
 (require web-server/servlet
          web-server/servlet-env
-         "../lib/resource-dispatcher.rkt" )
+         "../lib/scaffold.rkt"  
+         "../lib/resource-dispatcher.rkt" 
+         "../models/main.rkt" )
 
 (provide 
   make
@@ -19,7 +21,7 @@
   `((div "delete")))
 
 (define (show i)
-  `((div "show")))
+  (scaffold-show comment% i))
 
 (define (index)
   `((div "index")))
