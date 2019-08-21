@@ -16,6 +16,8 @@
   `(message ,(~a (string-titlecase (class->string resource%)) 
                  " deleted!")))
 
+(define (column->div resource column-name)
+  `(div ,(~a column-name (dynamic-get-field column-name resource))))
 
 (define (scaffold-show resource% i)
   (define lowercase-resource-name 
@@ -28,14 +30,20 @@
  ;TODO: Procedurally get column names and resolve them to their
  ;values
  (define t (send p get-text))
- 
- ;Create div for displaying text
+
+ (define columns (class->columns resource%))
+  
+ ;Creates div for displaying text
+
+  (define column-divs
+    (map (curry column->div p) columns))
 
   (list
     `(h1 ,(~a "This is a " (class->string resource%)))
 
     ;TODO: Display resource-specific data here...
-    `(div ,t)
+
+    `(div ,@column-divs)
 
     `(div 
        (a ([href ,(~a "/" lowercase-resource-name "/" i "/edit")]) "Edit"))  

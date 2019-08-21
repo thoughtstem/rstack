@@ -13,6 +13,8 @@
          pluralize
          class->string
 
+         class->columns
+
          connection
 
          create-db
@@ -66,6 +68,10 @@
 (define (pluralize s)
   (~a s "s"))
 
+(define (class->columns c%)
+   (define-values (cik sk tn x columns j pk ak en)
+     (data-class-info c%))
+  (map first columns))
 
 
 
