@@ -2,20 +2,17 @@
 
 (require web-server/servlet
          web-server/servlet-env
+         "../lib/resource-dispatcher.rkt" 
          "../models/main.rkt")
 
 (provide 
-  current-req
-
-  make-req
-  edit-req
-  update-req
-  create-req
-  show-req delete-req 
-  index-req)
-
-(define (layout elems)
-  `(html (body ,@elems)))
+  make
+  edit
+  update
+  create
+  show
+  delete
+  index)
 
 
 
@@ -144,7 +141,6 @@
   
   (index))
 
-(define current-req (make-parameter #f))
 
 (define (params id)
   (spin:params (current-req) id))
@@ -162,43 +158,6 @@
   (hash-ref (make-hash (append query-pairs body-pairs 
                                #;
                                url-pairs)) key ""))
-
-(define (update-req req i)
-  (parameterize
-    ([current-req req])
-    (response/xexpr (layout (update i)))))
-
-(define (create-req req)
-  (parameterize
-    ([current-req req])
-    (response/xexpr (layout (create)))))
-
-(define (delete-req req i)
-  (parameterize
-    ([current-req req])
-    (response/xexpr (layout (delete i)))))
-
-(define (show-req req i)
-  (parameterize
-    ([current-req req])
-    (response/xexpr (layout (show i)))))
-   
-(define (index-req req)
-  (parameterize
-    ([current-req req])
-    (response/xexpr (layout (index)))))
-
-
-(define (make-req req)
-  (parameterize
-    ([current-req req])
-    (response/xexpr (layout (make)))))
-
-(define (edit-req req i)
-  (parameterize
-    ([current-req req])
-    (response/xexpr (layout (edit i)))))
-
 
 
 
