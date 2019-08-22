@@ -1,14 +1,65 @@
 #lang racket
 
-(provide scaffold-delete
-         scaffold-update
-         scaffold-show
-         scaffold-index
-         scaffold-make
-         scaffold-edit)
+(provide 
+  use-scaffolds
+  scaffold-delete
+  scaffold-update
+  scaffold-create
+  scaffold-show
+  scaffold-index
+  scaffold-make
+  scaffold-edit)
 
 (require "../models/main.rkt"
          "./params.rkt")
+
+(define (scaffold-create resource%)
+  (define p (new resource%))
+
+  ;Programmatically set all columns
+  
+
+  ;TODO: Refactor this out of scaffold-update
+  (define columns (class->columns resource%))
+
+  (for ([f columns])
+    (set p f (params f)))   
+
+  (save p)
+
+  ;I wish this worked.  Can't get the id
+  ;  from racquel.  Opened ticket:
+  ;  https://github.com/brown131/racquel/issues/11
+
+  #;
+  (show (get-id p))
+
+  ;Just load the index for now...
+  
+  (scaffold-index resource%))
+
+
+(define (scaffold-update resource% i)
+  (define p (find resource% i))
+
+  (define columns (class->columns resource%))
+
+  (for ([f columns])
+    (set p f (params f)))   
+
+  (save p)
+
+  (scaffold-show resource% i))
+
+
+;TODO: move this to lib/db.rkt
+(define (set obj f v)
+  (dynamic-set-field! f obj v))
+
+
+
+
+
 
 (define (scaffold-edit resource% i)
   (edit-form resource% i))
@@ -44,28 +95,6 @@
          (map column-name->form-field-and-label
               (class->columns resource%))) )
 
-(define (scaffold-update resource% i)
-  (define p (find resource% i))
-
-  (define columns (class->columns resource%))
-  
- ;Creates div for displaying text
-
-  (define column-divs
-    (map (curry column->div p) columns))
-
-  (define (set obj f v)
-    (dynamic-set-field!
-      f
-      obj
-      v))
-
-  (for ([f (class->columns resource%)]) 
-    (set p f (params f)))   
-
-  (save p)
-
-  (scaffold-show resource% i))
 
 (define (scaffold-index resource%)
   (define rs (all resource%))
@@ -166,3 +195,28 @@
  `(button ([onClick ,delete-js])
      "Delete"))
 
+
+(define-syntax-rule (use-scaffolds resource%)
+  (begin
+    (provide make edit update create show delete index)
+
+    (define (delete i)
+      (scaffold-delete resource% i))
+
+    (define (show i)
+      (scaffold-show resource% i))
+
+    (define (index)
+      (scaffold-index resource%))
+
+    (define (update i)
+      (scaffold-update resource% i))
+
+    (define (make)
+      (scaffold-make resource%))
+
+    (define (edit i)
+      (scaffold-edit resource% i))
+
+    (define (create)
+      (scaffold-create resource%))) )

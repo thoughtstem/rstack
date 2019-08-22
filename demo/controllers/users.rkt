@@ -3,4 +3,4 @@
 (require "../lib/scaffold.rkt" 
          "../models/main.rkt")
 
-(use-scaffolds comment%)
+(use-scaffolds user%)

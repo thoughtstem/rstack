@@ -4,7 +4,8 @@
 
 (provide create-db
          migration1
-         migration2)
+         migration2
+         migration3)
 
 (define-runtime-path here ".")
 
@@ -24,6 +25,10 @@
 (define (migration2)
   (query-exec connection
           "CREATE TABLE comments( id   INTEGER PRIMARY KEY  AUTOINCREMENT NOT NULL, text TEXT NOT NULL);")) 
+
+(define (migration3)
+  (query-exec connection
+          "CREATE TABLE users( id   INTEGER PRIMARY KEY  AUTOINCREMENT NOT NULL, first_name TEXT NOT NULL, last_name TEXT NOT NULL);")) 
 
 (define (create-db)
   (migration1) 

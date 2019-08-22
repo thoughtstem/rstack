@@ -43,3 +43,25 @@
          (get-column text this))
     (super-new)))
 
+
+(provide user%)
+
+(define user%
+  (data-class object%
+    (table-name "users")
+
+    (column (id   #f ;default val
+                  "id"))
+    (init-column
+      (first-name "" "first_name")
+      (last-name "" "last_name"))  
+
+    (primary-key id)
+
+    (define/public (full-name)
+      (~a 
+        (get-column first-name this)  
+        " "
+        (get-column last-name this)))
+    (super-new)))
+

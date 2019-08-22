@@ -33,8 +33,6 @@
   (get-column id do))
 
 (define (find c i)
-  (displayln c)
-  (displayln connection)
   (select-data-object connection c (where (= id ?)) i))
 
 (define (destroy do)
@@ -54,5 +52,7 @@
 (define (class->columns c%)
   (define-values (cik sk tn x columns j pk ak en)
     (data-class-info c%))
-  (map first columns))
+  (filter-not 
+    (curry eq? 'id)
+    (map first columns)))
 

@@ -9,6 +9,10 @@
 
 (define (dispatcher #:fallback fallback)
   ;TODO: Auto chain them based on files in folder
-  (define comments (auto-load-dispatcher here "comments" fallback)) 
-  (auto-load-dispatcher here "posts" 
-                        comments))
+  (define users
+    (auto-load-dispatcher here "users" fallback))
+
+  (define comments 
+    (auto-load-dispatcher here "comments" users)) 
+
+  (auto-load-dispatcher here "posts" comments))
