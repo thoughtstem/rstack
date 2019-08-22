@@ -3,8 +3,7 @@
 (provide 
   use-scaffolds
   scaffold-delete
-  scaffold-update
-  scaffold-create
+  scaffold-update scaffold-create
   scaffold-show
   scaffold-index
   scaffold-make

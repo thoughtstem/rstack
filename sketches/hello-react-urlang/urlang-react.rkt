@@ -1,5 +1,7 @@
 #lang racket
 
+(provide output)
+
 (require urlang)
 
 (define output
@@ -13,7 +15,7 @@
                     (console.log "Hello")
                     (console.log props)
                     (React.createElement "div" #f
-                                         (+ "Hello" props.toWhat)))
+                                         (+ "Hello " props.toWhat)))
 
                   (ReactDOM.render
                     (React.createElement Hello 
@@ -21,6 +23,5 @@
                                          #f)
                     (document.getElementById "root")))))))
 
-output
 
 
