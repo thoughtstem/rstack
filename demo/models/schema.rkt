@@ -9,10 +9,6 @@
 
 (define-runtime-path here ".")
 
-(define connection
-  (sqlite3-connect #:database (build-path here "./temp.db")
-                   #:mode 'create))
-
 (provide 
   create-db
   migration1
