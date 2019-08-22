@@ -1,8 +1,6 @@
 #lang racket
 
-(require db "../lib/db.rkt")
-
-(provide (all-from-out racquel))
+(require db "../lib/db.rkt" racket/runtime-path)
 
 (provide create-db
          migration1

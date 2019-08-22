@@ -11,7 +11,8 @@
          find
          destroy
          pluralize
-         class->string)
+         class->string
+         class->columns)
 
 (define-runtime-path here ".")
 

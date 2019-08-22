@@ -24,18 +24,16 @@
   (scaffold-show comment% i))
 
 (define (index)
-  `((div "index")))
-
+  (scaffold-index comment%))
 
 (define (update i)
-  `((div "update")))
-
+  (scaffold-update comment% i))
 
 (define (make)
-  `((div "make")))
+  (scaffold-make comment%))
 
 (define (edit i)
-  `((div "edit")))
+  (scaffold-edit comment% i))
 
 
 (define (create)
