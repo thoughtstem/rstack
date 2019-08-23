@@ -1,8 +1,9 @@
 #lang racket
 
-(provide post%)
+(provide post% )
 
-(require racquel)
+(require racquel 
+         "../lib/db.rkt" )
 
 (provide comment%)
 
@@ -25,8 +26,10 @@
 
     (primary-key id)
 
+    (has-many comment% comment_id get-comments)
+
     (define/public (set-text v)
-         (set-column! text this v))
+      (set-column! text this v))
 
     (define/public (get-text)
          (get-column text this))
@@ -48,12 +51,15 @@
     (join [comments comment% #:cardinality 'one-to-many
                  (where (= (comment% post-id) (post% id)))])
 
+    (has-many comment% post_id get-comments)
+
     (define/public (set-text v)
          (set-column! text this v))
 
     (define/public (get-text)
          (get-column text this))
     (super-new)))
+
 
 (provide user%)
 
@@ -75,4 +81,6 @@
         " "
         (get-column last-name this)))
     (super-new)))
+
+
 

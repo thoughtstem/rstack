@@ -1,2 +1,0 @@
-"use strict";
-{style:{padding:20,backgroundColor:this.props.color,color:"white",textAlign:"center",width:200,height:200}};

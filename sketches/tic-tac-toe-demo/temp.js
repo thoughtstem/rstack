@@ -1,2 +1,2 @@
 "use strict";
-{x:props};
+{x:2,y:(foo((^^((5+5)))))};
