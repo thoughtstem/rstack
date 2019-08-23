@@ -1,0 +1,2 @@
+"use strict";
+((ReactDOM.render)(((React["createElement"])(HelloWorld,{color:"red"},(js_cjs(false)))),((document["getElementById"])("root2"))));

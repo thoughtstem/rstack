@@ -1,0 +1,2 @@
+"use strict";
+{style:{padding:20,backgroundColor:"green",color:"white",textAlign:"center",width:200,height:100}};

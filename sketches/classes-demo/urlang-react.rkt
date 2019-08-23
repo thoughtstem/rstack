@@ -10,9 +10,11 @@
       (urlang
         (urmodule test 
                   (import
+                    Object
                    this
                    this.state
                    React.Component.call
+                   Board.prototype
                    Board.prototype.renderSquare
                    Board.prototype.render
                    React ReactDOM console document alert) 
@@ -35,8 +37,10 @@
 
                   (define (Board props)
                     (React.Component.call this)
-                    (:= this.state props)
-                    )
+                    (:= this.state props))
+
+                  (:= Board.prototype
+                      (Object.create React.Component.prototype))
 
                   (:= Board.prototype.renderSquare
                       (lambda (i)
@@ -50,6 +54,7 @@
                       (lambda ()
                         (this.renderSquare 0)))
                   
+
                   
                   
 

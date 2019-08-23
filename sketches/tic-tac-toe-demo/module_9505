@@ -1,0 +1,2 @@
+"use strict";
+{style:{backgroundColor:"green",color:"white",text_align:"center",width:200,height:100}};
