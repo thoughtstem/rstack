@@ -4,27 +4,6 @@
 
 (require racquel)
 
-(define post%
-  (data-class object%
-    (table-name "posts")
-
-    (column (id   #f ;default val
-                  "id")
-            (user-id #f ;default val
-                     "user_id"))
-    (init-column
-      (text #f "text"))  
-
-    (primary-key id)
-
-    (define/public (set-text v)
-         (set-column! text this v))
-
-    (define/public (get-text)
-         (get-column text this))
-    (super-new)))
-
-
 (provide comment%)
 
 (define comment%
@@ -53,6 +32,28 @@
          (get-column text this))
     (super-new)))
 
+(define post%
+  (data-class object%
+    (table-name "posts")
+
+    (column (id   #f ;default val
+                  "id")
+            (user-id #f ;default val
+                     "user_id"))
+    (init-column
+      (text #f "text"))  
+
+    (primary-key id)
+
+    (join [comments comment% #:cardinality 'one-to-many
+                 (where (= (comment% post-id) (post% id)))])
+
+    (define/public (set-text v)
+         (set-column! text this v))
+
+    (define/public (get-text)
+         (get-column text this))
+    (super-new)))
 
 (provide user%)
 
