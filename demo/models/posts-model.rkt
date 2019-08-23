@@ -9,7 +9,9 @@
     (table-name "posts")
 
     (column (id   #f ;default val
-                  "id"))
+                  "id")
+            (user-id #f ;default val
+                     "user_id"))
     (init-column
       (text #f "text"))  
 
@@ -30,7 +32,15 @@
     (table-name "comments")
 
     (column (id   #f ;default val
-                  "id"))
+                  "id")
+            (user-id #f ;default val
+                     "user_id"
+                     )
+            (comment-id #f ;default val
+                        "comment_id"
+                        )
+            (post-id #f ;default val
+                     "post_id"))
     (init-column
       (text #f "text"))  
 

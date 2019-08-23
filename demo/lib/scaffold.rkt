@@ -75,24 +75,28 @@
     `(form ([action ,(if i
                        (~a "/" plural-resource-name "/" i)
                        (~a "/" plural-resource-name))]
-            [method ,resource-name])
-       ,@(form-fields-and-labels resource%)
+            [method "post"])
+       ,@(form-fields-and-labels resource% i)
 
        (input ([type "submit"] [value "Submit"])))))
 
 
-(define (column-name->form-field-and-label name)
+(define (column-name->form-field-and-label name resource% i)
   (list
     (~a name ":")
     `(br)
-    `(input ([type ,(~a name)] [name ,(~a name)]))
+    `(input ([type ,(~a name)]
+             [name ,(~a name)]
+             [value ,(~a(if i
+                         (dynamic-get-field name (find resource% i))
+                         " "))]))
     `(br)
     ))
 
-(define (form-fields-and-labels resource%)
+(define (form-fields-and-labels resource% i)
   (apply append
-         (map column-name->form-field-and-label
-              (class->columns resource%))) )
+         (map (curryr column-name->form-field-and-label resource% i)
+              (class->columns resource%))))
 
 
 (define (scaffold-index resource%)
