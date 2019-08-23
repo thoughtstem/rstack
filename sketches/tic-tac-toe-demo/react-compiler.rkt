@@ -42,10 +42,10 @@
     ,(js:js (ReactDOM.render (React.createElement
                             name
                             props 
-                            children ...)
-                          (document.getElementById dom-id)
-                          )))
-  )
+                            children ...
+                            
+                            )
+                          (document.getElementById dom-id)))))
 
 (define-syntax-rule (react-declare name)
   `(script ,(cdata 'hi 'there name)))

@@ -23,12 +23,18 @@
 
   (define (expand-dots s)
     (if (has-dots? s)
-      (do-expand s)
-      s)))
+      (do-expand s) s)))
 
+(define-syntax (lit stx)
+  (syntax-parse stx
+    #:datum-literals (unquote)
+    [(_ (unquote thing))  #'thing]
+    [(_ thing)            #'`thing]))
 
 (define-syntax (js stx)
   (syntax-parse stx
+    #:datum-literals (unquote)
+    [(_ (unquote expr)) #'expr]
     [(_ expr) 
      (define vars (flatten (map expand-dots (filter symbol? (flatten (syntax->datum #'expr))))))
 
@@ -37,14 +43,13 @@
      (define rnd 
        (~a "module_" (random 10000)))
 
-
      #`(let ([ret
                (with-output-to-string
                  (thunk
                    (urlang
                      (urmodule temp 
                                (import #,@vars)
-                               expr))))])
+                               #,(expand-syntax #'expr)))))])
 
 
          ;TODO: Fix these hacks.  Why does urlang need to make a file anyway?  Can we just toggle that off? Open a github ticket...
@@ -58,9 +63,20 @@
            ";" "" ))
      ]))
 
+(js
+  ,(lit 
+     (my (thing ,(+ 2 2)))))
 
+
+#;
 (module+ test
   (require rackunit)
+
+  (check-equal?
+    "{x:2,y:(foo(10))}"
+    (js (object [x 2]
+                [y (foo (^^ (+ 5 5)))])))
+
   (check-equal?
     "{x:2,y:(foo(10))}"
     (js (object [x 2]

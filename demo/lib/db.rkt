@@ -12,7 +12,10 @@
          destroy
          pluralize
          class->string
-         class->columns)
+         class->columns
+
+         ;Associations
+         has-many)
 
 (define-runtime-path here ".")
 
@@ -55,4 +58,20 @@
   (filter-not 
     (curry eq? 'id)
     (map first columns)))
+
+
+(define-syntax-rule (has-many resource% foreign-key name)
+  (begin
+    (define/public (hello)
+      (displayln "HELLO"))
+
+    (define/public (name)
+      (select-data-objects 
+        connection resource% 
+        (where (= foreign-key ?))  
+        (get-id this))))
+  
+  )
+
+
 

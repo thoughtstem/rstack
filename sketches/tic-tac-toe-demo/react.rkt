@@ -1,4 +1,5 @@
-#lang racket
+#
+#ang racket
 
 (require web-server/servlet
          web-server/servlet-env)
@@ -29,9 +30,9 @@
              ,(react-render "root2"
                             HelloWorld
                             (object [color "red"])
-                            #f
+                            ;#f
                             ;TODO: Children are not quite working...
-                            #;
+                            
                             (div ([style (color "green")])
                                  "I'm a child"))
              ))))
